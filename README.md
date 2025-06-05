@@ -17,7 +17,7 @@ Aplicación fullstack que muestra datos curiosos sobre gatos y un GIF relacionad
 
 - Tener instalado [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
-##Comandos
+Comandos
 
 1. Clona el repositorio y levanta el servicio :
 
@@ -25,11 +25,12 @@ Aplicación fullstack que muestra datos curiosos sobre gatos y un GIF relacionad
 git clone https://github.com/alipaezd/catfact-giphy-app-.git
 cd catfact-giphy-app-a
 
+Levanta el proyecto 
 
-docker compose up --build
+docker compose up --build o docker compose up --build --detach
 
 Accede a la app desde tu navegador:
 
 Frontend: http://localhost:3000
 
-Backend API (para pruebas): http://localhost:5000/api/fact
+Backend API : http://localhost:5000/api/fact
