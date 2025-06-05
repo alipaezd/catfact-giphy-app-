@@ -1,0 +1,10 @@
+/* Estilos globales de Tailwind CSS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Estilos básicos para el cuerpo */
+body {
+  font-family: Arial, sans-serif; /* Fuente sencilla para verificar funcionalidad */
+  /* @apply bg-gray-100 p-4; */
+}
