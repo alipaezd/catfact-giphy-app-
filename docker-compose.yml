@@ -18,15 +18,13 @@ services:
 
   frontend:
     build:
-      context: ./frontend # Ruta al Dockerfile del frontend
+      context: ./frontend 
       dockerfile: Dockerfile
-    container_name: catgif-frontend # Nombre consistente para el contenedor
+    container_name: catgif-frontend 
     ports:
-      - "3000:80" # Mapea el puerto 3000 del host al puerto 80 del contenedor (Nginx)
+      - "3000:80" 
     environment:
-      # Establece la URL base de la API para que la aplicación React se comunique con el backend
-      # 'backend' es el nombre del servicio para el contenedor del backend .NET en la red por defecto
+
       VITE_API_BASE_URL: "http://localhost:5000"
     depends_on:
-      - backend # Asegura que el backend esté levantado antes de que el frontend inicie
-    # No se define 'networks' ya que estás utilizando la red por defecto de Docker Compose
+      - backend 

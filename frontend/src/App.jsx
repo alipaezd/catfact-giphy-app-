@@ -9,7 +9,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // URL base de la API del backend - ajusta si tu backend se ejecuta en un host/puerto diferente
+  // URL base de la API del backend
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
   // Función para obtener un nuevo dato y el GIF asociado
@@ -62,7 +62,7 @@ function App() {
 
   // Función para refrescar solo el GIF para el dato actual
   const refreshGif = async () => {
-    if (!currentFact) return; // No se puede refrescar si no hay un dato cargado
+    if (!currentFact) return; 
     setLoading(true);
     setError(null);
     try {
@@ -95,8 +95,8 @@ function App() {
       const historyData = await response.json();
       setSearchHistory(historyData);
     } catch (err) {
-      console.error("Error al obtener el historial de búsquedas:", err);
-      setError("No se pudo cargar el historial de búsquedas.");
+      console.error("error al obtener el historial de busquedas  ", err);
+      setError("No se pudo cargar el historial de búsqueda");
       setSearchHistory([]);
     } finally {
       setLoading(false);
@@ -117,9 +117,7 @@ function App() {
 
   return (
     <div className="p-4 max-w-4xl mx-auto bg-white shadow-md rounded-lg">
-      <h1 className="text-2xl font-bold text-center mb-4">CatFact & Giphy App</h1>
-
-      {/* Navegación de pestañas simple */}
+      <h1 className="text-2xl font-bold text-center mb-4">CatFact & Giphy App /Ali Paez</h1>
       <div className="flex justify-center mb-4">
         <button
           className={`px-4 py-2 mr-2 rounded ${activeTab === 'current' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
@@ -141,7 +139,6 @@ function App() {
         </div>
       )}
 
-      {/* Contenido de la pestaña "Resultado Actual" */}
       {activeTab === 'current' && (
         <div className="text-center">
           {loading ? (
@@ -166,36 +163,34 @@ function App() {
                   disabled={loading || !currentFact}
                   className="px-4 py-2 bg-purple-500 text-white rounded disabled:opacity-50"
                 >
-                  Refrescar GIF
+                  Recargar GIF
                 </button>
                 <button
                   onClick={fetchNewFactAndGif}
                   disabled={loading}
                   className="px-4 py-2 bg-green-500 text-white rounded disabled:opacity-50"
                 >
-                  Nuevo Dato y GIF
+                  Cargar Nuevo Dato y GIF
                 </button>
               </div>
             </>
           )}
         </div>
       )}
-
-      {/* Contenido de la pestaña "Historial de Búsquedas" */}
       {activeTab === 'history' && (
         <div>
           <h2 className="text-xl font-bold mb-3 text-center">Historial</h2>
           {loading ? (
-            <p className="text-center">Cargando historial...</p>
+            <p className="text-center">cargando historial...</p>
           ) : searchHistory && searchHistory.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="min-w-full bg-white border border-gray-300">
                 <thead>
                   <tr>
                     <th className="py-2 px-4 border-b">Fecha</th>
-                    <th className="py-2 px-4 border-b">Dato Completo</th>
-                    <th className="py-2 px-4 border-b">Query</th>
-                    <th className="py-2 px-4 border-b">GIF</th>
+                    <th className="py-2 px-4 border-b">dato Completo</th>
+                    <th className="py-2 px-4 border-b">query</th>
+                    <th className="py-2 px-4 border-b">gif</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -227,7 +222,7 @@ function App() {
               </table>
             </div>
           ) : (
-            <p className="text-center">Aún no hay búsquedas en el historial.</p>
+            <p className="text-center">Aun no hay busquedas en el historial.</p>
           )}
         </div>
       )}

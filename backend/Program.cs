@@ -8,8 +8,11 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
+// leer appsettings.json y variables de entorno
 
-// Crear carpeta "data" si no existe
+
+
+// Configuracion de base de datos 
 var dbFolder = Path.Combine(Directory.GetCurrentDirectory(), "data");
 if (!Directory.Exists(dbFolder))
 {
@@ -18,13 +21,14 @@ if (!Directory.Exists(dbFolder))
 
 var dbPath = Path.Combine(dbFolder, "CatGifDb.sqlite");
 
-// Registrar DbContext solo una vez, con ruta física correcta
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite($"Data Source={dbPath}"));
+//
 
 // Swagger y configuración general
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+//Configuracion de Cors
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -34,7 +38,7 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod();
     });
 });
-
+//
 builder.WebHost.UseUrls("http://0.0.0.0:5000");
 
 var app = builder.Build();
@@ -45,8 +49,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseCors();
-// Endpoints
 
+// endpoints
 app.MapGet("/api/fact", async () =>
 {
     using var http = new HttpClient();
@@ -56,10 +60,11 @@ app.MapGet("/api/fact", async () =>
 
 app.MapGet("/api/gif", async (string query) =>
 {
-    var apiKey = "voaNIOg1u7ONPbckzWK71C48YqCOkhVP";
+    var apiKey = builder.Configuration["Giphy:ApiKey"];
 
-    // Tomar las 3 primeras palabras del query
-    var keywords = string.Join(" ", query.Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(3));
+    Console.WriteLine($"{apiKey}");
+
+    var keywords = string.Join(" ", query.Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(8));
 
     var url = $"https://api.giphy.com/v1/gifs/search?api_key={apiKey}&q={Uri.EscapeDataString(keywords)}&limit=1";
 
@@ -89,7 +94,6 @@ app.MapPost("/api/history", async (SearchEntry entry, AppDbContext db) =>
     return Results.Created($"/api/history/{entry.Id}", entry);
 });
 
-// Asegurar creación base de datos
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
